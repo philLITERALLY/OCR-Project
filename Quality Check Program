@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Quality Check
+Comment=Application which checks print quality
+Icon=/home/pi/OCR-Project/logo.png
+Exec=python /home/pi/OCR-Project/main.py
+Path=/home/pi/OCR-Project/
+Terminal=false
+Type=Application
+Categories=Utility;Application;
