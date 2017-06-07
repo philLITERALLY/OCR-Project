@@ -19,7 +19,8 @@ def main(config, frame):
         (contours, _) = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
         # run contour sort method
-        contours = sort_contours.main(contours)
+        if len(contours) > 0 :
+                contours = sort_contours.main(contours)
 
         # return un-edited image and contours
         return img2, contours
