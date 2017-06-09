@@ -5,7 +5,7 @@ helpText = ["--help", "--h", "-h"]
 responsesFile = "training/responses.dat"
 samplesFile = "training/samples.dat"
 
-camWidth = 208
+camWidth = 640
 camHeight = 480
 camFrameRate = 32
 cropHeightStart = 100
