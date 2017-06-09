@@ -12,6 +12,14 @@ import camera_setup
 import find_contours
 import learn_ocr
 
+# load OCR training
+samples = np.loadtxt('training/samples.dat',np.float32)
+responses = np.loadtxt('training/responses.dat',np.float32)
+responses = responses.reshape((responses.size,1))
+
+model = cv2.KNearest()
+model.train(samples,responses)
+
 learnMode = False
 learnCurrent = False
 
@@ -37,13 +45,13 @@ else :
 print("Press ` to stop program")
 
 # init camera and warmup
-(camera, rawCap) = camera_setup.main(config)
+(camera, rawCap) = camera_setup.main()
 
 #grab frames
 for frame in camera.capture_continuous(rawCap, format="bgr", use_video_port = True) :
         # get image then find and sort contours
-        (img, contours) = find_contours.main(config, frame.array)
-        drawImg = img.copy()
+        (original, edited, contours) = find_contours.main(frame.array)
+        drawImg = original.copy()
 
         num = 1
 
@@ -51,17 +59,40 @@ for frame in camera.capture_continuous(rawCap, format="bgr", use_video_port = Tr
         for cnt in contours :
                 x,y,w,h = cv2.boundingRect(cnt)
                 if x > config.edgesGap and (x + w) < (config.camWidth - config.edgesGap) :
+                        charTxt = ""
+                        
                         if learnMode & learnCurrent :
-                                char = img.copy()[y:y+h, x:x+w]
-                                learn_ocr.main(char)
-                                                        
-                        cv2.rectangle(drawImg, (x,y), (x+w,y+h), (0,255,0),2)
-                        cv2.putText(drawImg, str(num), (x,y+h), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255))
+                                char = original.copy()[y:y+h, x:x+w]
+                                charCnt = edited.copy()[y:y+h, x:x+w]
+                                learn_ocr.main(char, charCnt)
+                        else :
+                                # get character contour and run OCR
+                                charCnt = edited.copy()[y:y+h, x:x+w]
+                                charCnt = cv2.resize(charCnt, (10, 10))
+                                charCnt = np.float32(charCnt)
+                                charCnt = np.reshape(charCnt, (1,100))
+                                retval, results, neigh_resp, dists = model.find_nearest(charCnt, k = 1)
+
+                                # get text of nearest character
+                                string = int((results[0][0]))
+                                test = chr(string%256) if string%256 < 128 else '?'
+                                charTxt = test
+                                                                                            
+                        #cv2.rectangle(drawImg, (x,y), (x+w,y+h), (0,255,0),2)
+                        cv2.putText(drawImg, charTxt, (x,y+(h/4*3)), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,255), 3)
                         num = num + 1
 
         if learnMode & learnCurrent:
                 print("Finished learning current screen")
                 learnCurrent = False
+
+                # reload OCR training
+                samples = np.loadtxt('training/samples.dat',np.float32)
+                responses = np.loadtxt('training/responses.dat',np.float32)
+                responses = responses.reshape((responses.size,1))
+
+                model = cv2.KNearest()
+                model.train(samples,responses)
 
         # show camera feed
         cv2.imshow("Frame", drawImg)
@@ -78,3 +109,15 @@ for frame in camera.capture_continuous(rawCap, format="bgr", use_video_port = Tr
         elif (key == ord("\t")) & learnMode :
                 print("Learning current screen. Enter corresponding characters to shown images.")
                 learnCurrent = True
+        #elif (key == ord("=")) :
+                #config.cannyLeft = config.cannyLeft + 10
+                #print(config.cannyLeft)
+        #elif (key == ord("-")) :
+                #config.cannyLeft = config.cannyLeft - 10
+                #print(config.cannyLeft)
+        #elif (key == ord("]")) :
+                #config.cannyRight = config.cannyRight + 10
+                #print(config.cannyRight)
+        #elif (key == ord("[")) :
+                #config.cannyRight = config.cannyRight - 10
+                #print(config.cannyRight)

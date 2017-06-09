@@ -2,13 +2,16 @@ version = "0.1"
 
 helpText = ["--help", "--h", "-h"]
 
-camWidth = 640
+responsesFile = "training/responses.dat"
+samplesFile = "training/samples.dat"
+
+camWidth = 208
 camHeight = 480
 camFrameRate = 32
 cropHeightStart = 100
 cropHeightEnd = 200
 cannyLeft = 300
-cannyRight = 500
+cannyRight = 700
 edgesGap = 20
 
 # print help options

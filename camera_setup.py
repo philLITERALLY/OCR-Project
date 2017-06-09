@@ -3,7 +3,10 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 import time
 
-def main(config):
+# import my modules
+import config
+
+def main():
     # init camera
     camera = PiCamera()
     camera.resolution = (config.camWidth, config.camHeight)
