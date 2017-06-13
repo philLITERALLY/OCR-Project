@@ -60,30 +60,40 @@ for frame in camera.capture_continuous(rawCap, format="bgr", use_video_port = Tr
         (original, edited, contours) = find_contours.main(frame.array)
         drawImg = original.copy()
 
-        num = len(pipe)
+        num = 0
         
-        for cnt in contours :
-                x,y,w,h = cv2.boundingRect(cnt)
-                if x > config.edgesGap - 5 and x < firstCharPosition :
-                        pipe.append({"key": num , "OCR": []})
-                        num = num + 1
-                        firstCharPosition = x
-                        break
-                elif x > config.edgesGap - 5 :
-                        firstCharPosition = x
-                        break
+        if not learnMode :
+                num = len(pipe)
+                for cnt in contours :
+                        x,y,w,h = cv2.boundingRect(cnt)
+                        if x > config.edgesGap and x < firstCharPosition :
+                                pipe.append({"key": num + 1 , "OCR": []})
+                                num += 1
+                                firstCharPosition = x
+                                break
+                        elif x > config.edgesGap :
+                                firstCharPosition = x
+                                break
 
         #for each contour draw a bounding box and order number
         for cnt in contours :
                 x,y,w,h = cv2.boundingRect(cnt)
                 
-                if x > config.edgesGap and (x + w) < (config.camWidth - config.edgesGap) :
-                        charTxt = ""
-                        
+                if x > config.edgesGap and (x + w) < (config.camWidth - config.edgesGap) :                        
                         if learnMode & learnCurrent :
                                 char = original.copy()[y:y+h, x:x+w]
                                 charCnt = edited.copy()[y:y+h, x:x+w]
                                 learn_ocr.main(char, charCnt)
+                        elif learnMode :
+                                cv2.rectangle(drawImg, (x,y), (x+w,y+h), (0,255,0),2)                                # get character contour and run OCR
+                                charCnt = edited.copy()[y:y+h, x:x+w]
+                                charCnt = cv2.resize(charCnt, (10, 10))
+                                charCnt = np.float32(charCnt)
+                                charCnt = np.reshape(charCnt, (1,100))
+                                retval, results, neigh_resp, dists = model.find_nearest(charCnt, k = 1)                                # get text of nearest character
+                                string = int((results[0][0]))
+                                
+                                cv2.putText(drawImg, chr(string%256), (x,y+(h/4*3)), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,255), 3)
                         else :
                                 # get character contour and run OCR
                                 charCnt = edited.copy()[y:y+h, x:x+w]
@@ -94,8 +104,6 @@ for frame in camera.capture_continuous(rawCap, format="bgr", use_video_port = Tr
 
                                 # get text of nearest character
                                 string = int((results[0][0]))
-                                test = chr(string%256) if string%256 < 128 else '?'
-                                charTxt = test
 
                                 for letter in pipe :
                                         if letter['key'] == num :
@@ -103,9 +111,8 @@ for frame in camera.capture_continuous(rawCap, format="bgr", use_video_port = Tr
                                                 modeLetter = Counter(letter['OCR']).most_common(1)[0][0]
                                                 cv2.putText(drawImg, chr(modeLetter), (x,y+(h/4*3)), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,255), 3)
                                                 break
-                                                                                                            
-                        cv2.putText(drawImg, str(num), (x,y+h), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255))
-                        num = num - 1
+
+                        num -= 1
 
         if learnMode & learnCurrent:
                 print("Finished learning current screen")
@@ -139,18 +146,27 @@ for frame in camera.capture_continuous(rawCap, format="bgr", use_video_port = Tr
                 translate = ""
                 print("Full array trasnlate : ")
                 for letter in sorted(pipe, key=lambda x: (x['key']), reverse=True) :
+                        median = Counter(letter['OCR']).most_common(1)[0][0]
+                        print "Letter: " + chr(median) + "  -  Total: " + str(len(letter['OCR'])) + "  -  Mode: " + str(letter['OCR'].count(median) * 100 / len(letter['OCR'])) + "%"
                         translate = translate + str(chr(Counter(letter['OCR']).most_common(1)[0][0]))
-                print translate
-                
-        #elif (key == ord("=")) :
+                print translate      
+        elif (key == ord("=")) :
                 #config.cannyLeft = config.cannyLeft + 10
                 #print(config.cannyLeft)
-        #elif (key == ord("-")) :
+                config.cropHeightEnd = config.cropHeightEnd + 10
+                print config.cropHeightEnd
+        elif (key == ord("-")) :
                 #config.cannyLeft = config.cannyLeft - 10
                 #print(config.cannyLeft)
-        #elif (key == ord("]")) :
+                config.cropHeightEnd = config.cropHeightEnd - 10
+                print config.cropHeightEnd
+        elif (key == ord("]")) :
                 #config.cannyRight = config.cannyRight + 10
                 #print(config.cannyRight)
-        #elif (key == ord("[")) :
+                config.cropHeightStart = config.cropHeightStart + 10
+                print config.cropHeightStart
+        elif (key == ord("[")) :
                 #config.cannyRight = config.cannyRight - 10
                 #print(config.cannyRight)
+                config.cropHeightStart = config.cropHeightStart - 10
+                print config.cropHeightStart
