@@ -5,6 +5,7 @@ from picamera import PiCamera
 import time
 import cv2
 import numpy as np
+from collections import Counter
 
 # import my classes
 import config
@@ -47,17 +48,34 @@ print("Press ` to stop program")
 # init camera and warmup
 (camera, rawCap) = camera_setup.main()
 
+pipe = []
+addMode = True
+removeMode = True
+
+firstCharPosition = config.edgesGap
+
 #grab frames
 for frame in camera.capture_continuous(rawCap, format="bgr", use_video_port = True) :
         # get image then find and sort contours
         (original, edited, contours) = find_contours.main(frame.array)
         drawImg = original.copy()
 
-        num = 1
+        num = len(pipe)
+        
+        for cnt in contours :
+                x,y,w,h = cv2.boundingRect(cnt)
+                if x > config.edgesGap - 5 and x < firstCharPosition :
+                        pipe.append({"key": num, "OCR": []})
+                        firstCharPosition = x
+                        break
+                elif x > config.edgesGap - 5 :
+                        firstCharPosition = x
+                        break
 
         #for each contour draw a bounding box and order number
         for cnt in contours :
                 x,y,w,h = cv2.boundingRect(cnt)
+                
                 if x > config.edgesGap and (x + w) < (config.camWidth - config.edgesGap) :
                         charTxt = ""
                         
@@ -77,10 +95,16 @@ for frame in camera.capture_continuous(rawCap, format="bgr", use_video_port = Tr
                                 string = int((results[0][0]))
                                 test = chr(string%256) if string%256 < 128 else '?'
                                 charTxt = test
-                                                                                            
-                        #cv2.rectangle(drawImg, (x,y), (x+w,y+h), (0,255,0),2)
-                        cv2.putText(drawImg, charTxt, (x,y+(h/4*3)), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,255), 3)
-                        num = num + 1
+
+                                for letter in pipe :
+                                        if letter['key'] == num :
+                                                letter['OCR'].append(string%256)
+                                                modeLetter = Counter(letter['OCR']).most_common(1)[0][0]
+                                                cv2.putText(drawImg, chr(modeLetter), (x,y+(h/4*3)), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,255), 3)
+                                                break
+                                                                                                            
+                        cv2.putText(drawImg, str(num), (x,y+h), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255))
+                        num = num - 1
 
         if learnMode & learnCurrent:
                 print("Finished learning current screen")
@@ -105,10 +129,18 @@ for frame in camera.capture_continuous(rawCap, format="bgr", use_video_port = Tr
                 print("Stopping program")
                 break
         # if learn mode and 'l' is pressed
-        #current screen can be learnt
+        # current screen can be learnt
         elif (key == ord("\t")) & learnMode :
                 print("Learning current screen. Enter corresponding characters to shown images.")
                 learnCurrent = True
+        # print full translate
+        elif (key == ord("\n")) :
+                translate = ""
+                print("Full array trasnlate : ")
+                for letter in sorted(pipe, key=lambda x: (x['key']), reverse=True) :
+                        translate = translate + str(chr(Counter(letter['OCR']).most_common(1)[0][0]))
+                print translate
+                
         #elif (key == ord("=")) :
                 #config.cannyLeft = config.cannyLeft + 10
                 #print(config.cannyLeft)
