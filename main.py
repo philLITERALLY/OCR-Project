@@ -65,7 +65,8 @@ for frame in camera.capture_continuous(rawCap, format="bgr", use_video_port = Tr
         for cnt in contours :
                 x,y,w,h = cv2.boundingRect(cnt)
                 if x > config.edgesGap - 5 and x < firstCharPosition :
-                        pipe.append({"key": num, "OCR": []})
+                        pipe.append({"key": num , "OCR": []})
+                        num = num + 1
                         firstCharPosition = x
                         break
                 elif x > config.edgesGap - 5 :
