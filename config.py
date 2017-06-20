@@ -2,8 +2,8 @@ version = "0.1"
 
 helpText = ["--help", "--h", "-h"]
 
-responsesFile = "training/responses.dat"
-samplesFile = "training/samples.dat"
+responsesFile = "/home/pi/OCR-Project/training/responses.dat"
+samplesFile = "/home/pi/OCR-Project/training/samples.dat"
 
 camWidth = 640
 camHeight = 480

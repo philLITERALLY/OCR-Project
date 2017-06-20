@@ -8,7 +8,9 @@ import config
 
 # init camera
 def main(char, charCnt) :
-    cv2.imshow("Frame", char)
+    cv2.imshow("Camera", char)
+    cv2.moveWindow("Camera", 300, 80)
+    
     key = cv2.waitKey(0)
 
     # quit if '`'
@@ -41,8 +43,8 @@ def main(char, charCnt) :
 def clear_learn() :
     # clear image
     blankImg = np.zeros((1,1,3), np.uint8)
-    cv2.imwrite('training/train.png', blankImg)
+    cv2.imwrite('/home/pi/OCR-Project/training/train.png', blankImg)
 
     # clear responses and samples
-    open("training/responses.dat", "w").close()
-    open("training/samples.dat", "w").close()
+    open(config.responsesFile, "w").close()
+    open(config.samplesFile, "w").close()

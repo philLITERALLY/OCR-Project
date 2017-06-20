@@ -7,6 +7,11 @@ import cv2
 import numpy as np
 from collections import Counter
 
+# import the GUI packages
+from Tkinter import *
+from PIL import Image
+from PIL import ImageTk
+
 # import my classes
 import config
 import camera_setup
@@ -42,16 +47,12 @@ else :
         config.printHelp()
         sys.exit()
 
-
 print("Press ` to stop program")
 
 # init camera and warmup
 (camera, rawCap) = camera_setup.main()
 
 pipe = []
-addMode = True
-removeMode = True
-
 firstCharPosition = config.edgesGap
 
 #grab frames
@@ -151,22 +152,22 @@ for frame in camera.capture_continuous(rawCap, format="bgr", use_video_port = Tr
                         translate = translate + str(chr(Counter(letter['OCR']).most_common(1)[0][0]))
                 print translate      
         elif (key == ord("=")) :
-                #config.cannyLeft = config.cannyLeft + 10
-                #print(config.cannyLeft)
-                config.cropHeightEnd = config.cropHeightEnd + 10
-                print config.cropHeightEnd
+                config.cannyLeft = config.cannyLeft + 10
+                print(config.cannyLeft)
+                #config.cropHeightEnd = config.cropHeightEnd + 10
+                #print config.cropHeightEnd
         elif (key == ord("-")) :
-                #config.cannyLeft = config.cannyLeft - 10
-                #print(config.cannyLeft)
-                config.cropHeightEnd = config.cropHeightEnd - 10
-                print config.cropHeightEnd
+                config.cannyLeft = config.cannyLeft - 10
+                print(config.cannyLeft)
+                #config.cropHeightEnd = config.cropHeightEnd - 10
+                #print config.cropHeightEnd
         elif (key == ord("]")) :
-                #config.cannyRight = config.cannyRight + 10
-                #print(config.cannyRight)
-                config.cropHeightStart = config.cropHeightStart + 10
-                print config.cropHeightStart
+                config.cannyRight = config.cannyRight + 10
+                print(config.cannyRight)
+                #config.cropHeightStart = config.cropHeightStart + 10
+                #print config.cropHeightStart
         elif (key == ord("[")) :
-                #config.cannyRight = config.cannyRight - 10
-                #print(config.cannyRight)
-                config.cropHeightStart = config.cropHeightStart - 10
-                print config.cropHeightStart
+                config.cannyRight = config.cannyRight - 10
+                print(config.cannyRight)
+                #config.cropHeightStart = config.cropHeightStart - 10
+                #print config.cropHeightStart
