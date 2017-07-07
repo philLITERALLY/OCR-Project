@@ -82,7 +82,7 @@ class App(threading.Thread) :
                         )
                         self.root.stopBtn.place(relx=.7, rely=.3)
         def read(self) :
-                global readMode, learnCurrent, runOutputFile
+                global readMode, learnCurrent, runOutputFile, pipe
                 if (self.root.readBtn.cget('text') == "READ") :
                         # Set App to read mode
                         readMode = True
@@ -109,6 +109,7 @@ class App(threading.Thread) :
                         readMode = False
                         self.root.headerLbl.configure(text="Please select a mode")
                         self.root.headerLbl.place(relx=.35, rely=.1)
+                        pipe = []
                         
                         # Change trainBtn to default colour
                         self.root.readBtn.configure(
