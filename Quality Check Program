@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Quality Check
+Comment=Application which checks print quality
+Icon=/home/pi/OCR-Project/logo.png
+Exec=python /home/pi/OCR-Project/testingOCR2.py
+Type=Application
+Encoding=UTF-8
+Terminal=false
+Categories=None;

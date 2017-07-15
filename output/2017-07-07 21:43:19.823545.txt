@@ -1,0 +1,22 @@
+Output String = 14125-typea-[ppvavevr
+Letter: 1  -  Total: 15  -  Mode: 100%
+Letter: 4  -  Total: 16  -  Mode: 93%
+Letter: 1  -  Total: 20  -  Mode: 100%
+Letter: 2  -  Total: 22  -  Mode: 95%
+Letter: 5  -  Total: 24  -  Mode: 87%
+Letter: -  -  Total: 31  -  Mode: 96%
+Letter: t  -  Total: 34  -  Mode: 73%
+Letter: y  -  Total: 37  -  Mode: 86%
+Letter: p  -  Total: 39  -  Mode: 79%
+Letter: e  -  Total: 41  -  Mode: 85%
+Letter: a  -  Total: 31  -  Mode: 61%
+Letter: -  -  Total: 31  -  Mode: 90%
+Letter: [  -  Total: 32  -  Mode: 34%
+Letter: p  -  Total: 31  -  Mode: 83%
+Letter: p  -  Total: 31  -  Mode: 87%
+Letter: v  -  Total: 36  -  Mode: 66%
+Letter: a  -  Total: 37  -  Mode: 67%
+Letter: v  -  Total: 40  -  Mode: 62%
+Letter: e  -  Total: 42  -  Mode: 83%
+Letter: v  -  Total: 46  -  Mode: 82%
+Letter: r  -  Total: 45  -  Mode: 62%

@@ -1,0 +1,30 @@
+Output String = //dd/0d-
+Letter: /  -  Total: 7  -  Mode: 100%
+Letter: /  -  Total: 24  -  Mode: 33%
+Letter: d  -  Total: 30  -  Mode: 46%
+Letter: d  -  Total: 37  -  Mode: 40%
+Letter: /  -  Total: 53  -  Mode: 47%
+Letter: 0  -  Total: 62  -  Mode: 29%
+Letter: d  -  Total: 69  -  Mode: 65%
+Letter: -  -  Total: 78  -  Mode: 78%
+Output String = uppprimarysystem/-dd
+Letter: u  -  Total: 26  -  Mode: 92%
+Letter: p  -  Total: 30  -  Mode: 100%
+Letter: p  -  Total: 33  -  Mode: 100%
+Letter: p  -  Total: 37  -  Mode: 51%
+Letter: r  -  Total: 37  -  Mode: 43%
+Letter: i  -  Total: 41  -  Mode: 51%
+Letter: m  -  Total: 43  -  Mode: 48%
+Letter: a  -  Total: 46  -  Mode: 43%
+Letter: r  -  Total: 50  -  Mode: 48%
+Letter: y  -  Total: 44  -  Mode: 50%
+Letter: s  -  Total: 53  -  Mode: 60%
+Letter: y  -  Total: 53  -  Mode: 75%
+Letter: s  -  Total: 55  -  Mode: 85%
+Letter: t  -  Total: 56  -  Mode: 91%
+Letter: e  -  Total: 70  -  Mode: 90%
+Letter: m  -  Total: 73  -  Mode: 73%
+Letter: /  -  Total: 68  -  Mode: 54%
+Letter: -  -  Total: 78  -  Mode: 44%
+Letter: d  -  Total: 72  -  Mode: 70%
+Letter: d  -  Total: 71  -  Mode: 30%

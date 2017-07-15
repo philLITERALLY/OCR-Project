@@ -1,0 +1,16 @@
+Output String = n/o
+Stats = Letter: n  -  Total: 8  -  Mode: 100%
+Stats = Letter: /  -  Total: 25  -  Mode: 100%
+Stats = Letter: o  -  Total: 33  -  Mode: 51%
+Output String = tem/-d
+Stats = Letter: t  -  Total: 12  -  Mode: 100%
+Stats = Letter: e  -  Total: 19  -  Mode: 100%
+Stats = Letter: m  -  Total: 24  -  Mode: 66%
+Stats = Letter: /  -  Total: 39  -  Mode: 56%
+Stats = Letter: -  -  Total: 50  -  Mode: 40%
+Stats = Letter: d  -  Total: 62  -  Mode: 41%
+Output String = 4yst
+Stats = Letter: 4  -  Total: 13  -  Mode: 53%
+Stats = Letter: y  -  Total: 17  -  Mode: 100%
+Stats = Letter: s  -  Total: 23  -  Mode: 95%
+Stats = Letter: t  -  Total: 31  -  Mode: 93%

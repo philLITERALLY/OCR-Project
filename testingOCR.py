@@ -316,7 +316,6 @@ for (i, f) in enumerate(stream):
 
         # show camera feed
         cv2.imshow("Camera", drawImg)
-        cv2.moveWindow("Camera", 75, 80)
         
         # if q key is pressed exit program
         key = cv2.waitKey(1) & 0xFF
