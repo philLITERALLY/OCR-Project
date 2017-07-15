@@ -5,13 +5,13 @@ helpText = ["--help", "--h", "-h"]
 responsesFile = "/home/pi/OCR-Project/training/responses.dat"
 samplesFile = "/home/pi/OCR-Project/training/samples.dat"
 
-camWidth = 640
+camWidth = 800
 camHeight = 480
-camFrameRate = 32
-cropHeightStart = 100
-cropHeightEnd = 200
-cannyLeft = 300
-cannyRight = 700
+camFrameRate = 90
+cropHeightStart = 250
+cropHeightEnd = 380
+cannyLeft = 100
+cannyRight = 600
 edgesGap = 20
 
 # print help options

@@ -228,16 +228,16 @@ if "--clear_learn" in sys.argv :
         sys.exit()
 
 # init camera and warmup
-(camera, rawCap) = camera_setup.main()
+(stream, rawCap) = camera_setup.main()
 
 pipe = []
 firstCharPosition = config.edgesGap
 blankCount = 0
 
 #grab frames
-for frame in camera.capture_continuous(rawCap, format="bgr", use_video_port = True) :
+for (i, f) in enumerate(stream):
         # get image then find and sort contours
-        (original, edited, contours) = find_contours.main(frame.array)
+        (original, edited, contours) = find_contours.main(f.array)
         drawImg = original.copy()
 
         num = 0
@@ -248,10 +248,12 @@ for frame in camera.capture_continuous(rawCap, format="bgr", use_video_port = Tr
                         blankCount += 1
                 else :
                         blankCount = 0
-                        
+                                
                 for cnt in contours :
                         x,y,w,h = cv2.boundingRect(cnt)
                         if x > config.edgesGap and x < firstCharPosition :
+                                char = original.copy()[y:y+h, x:x+w]
+                                cv2.imwrite("images/Camera" + str(num) + ".png", char)
                                 pipe.append({"key": num + 1 , "OCR": []})
                                 num += 1
                                 firstCharPosition = x
@@ -294,7 +296,8 @@ for frame in camera.capture_continuous(rawCap, format="bgr", use_video_port = Tr
                                         if letter['key'] == num :
                                                 letter['OCR'].append(string%256)
                                                 modeLetter = Counter(letter['OCR']).most_common(1)[0][0]
-                                                cv2.putText(drawImg, chr(modeLetter), (x,y+(h/4*3)), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,255), 3)
+                                                #cv2.putText(drawImg, chr(modeLetter), (x,y+(h/4*3)), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,255), 3)
+                                                cv2.putText(drawImg, str(num), (x,y+(h/4*3)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 3)
                                                 break
 
                         num -= 1
@@ -319,7 +322,11 @@ for frame in camera.capture_continuous(rawCap, format="bgr", use_video_port = Tr
         key = cv2.waitKey(1) & 0xFF
         rawCap.truncate(0)
         # if stop button is pressed stop program
-        if stopProgram == True :
+        if stopProgram == True :                
+                # do a bit of cleanup
+                cv2.destroyAllWindows()
+                stream.close()
+                rawCap.close()
                 break
         # print full translate
         elif (len(pipe) > 0) & readMode & (blankCount > 10) :

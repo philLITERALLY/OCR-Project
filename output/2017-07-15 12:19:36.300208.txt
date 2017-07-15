@@ -1,0 +1,18 @@
+Output String = --a--------------
+Letter: -  -  Total: 12  -  Mode: 66%
+Letter: -  -  Total: 18  -  Mode: 55%
+Letter: a  -  Total: 21  -  Mode: 23%
+Letter: -  -  Total: 21  -  Mode: 19%
+Letter: -  -  Total: 27  -  Mode: 22%
+Letter: -  -  Total: 25  -  Mode: 28%
+Letter: -  -  Total: 27  -  Mode: 11%
+Letter: -  -  Total: 33  -  Mode: 15%
+Letter: -  -  Total: 35  -  Mode: 28%
+Letter: -  -  Total: 38  -  Mode: 26%
+Letter: -  -  Total: 42  -  Mode: 19%
+Letter: -  -  Total: 38  -  Mode: 21%
+Letter: -  -  Total: 30  -  Mode: 16%
+Letter: -  -  Total: 34  -  Mode: 41%
+Letter: -  -  Total: 31  -  Mode: 45%
+Letter: -  -  Total: 34  -  Mode: 44%
+Letter: -  -  Total: 34  -  Mode: 17%
