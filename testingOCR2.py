@@ -132,8 +132,6 @@ class App(threading.Thread) :
                         width=2,
                         height=1,
                         command=self.setEmptyThresh,
-                        bg="blue",
-                        activebackground="blue"
                 )
                 self.root.emptyBtn.place(relx=.58, rely=.27)
 
