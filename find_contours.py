@@ -19,11 +19,11 @@ def main(frame):
 
         # run canny edge detector on image
         edited = cv2.Canny(edited, config.cannyMin, config.cannyMax)
-        
+
         # run opencv find contours, only external boxes
         (contours, _) = cv2.findContours(edited, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         contours = [cnt for cnt in contours if cv2.contourArea(cnt) > 450]
-        
+
         # run contour sort method
         if len(contours) > 0 :
                 contours = sort_contours.main(contours)

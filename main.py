@@ -40,7 +40,7 @@ class App(threading.Thread) :
                         config.cropHeightEnd = config.cropHeightStart + config.cropHeight
 
                 if config.cropHeightStart != 0 :
-                        self.root.cropDownBtn.configure(text=u"\u2B07")           
+                        self.root.cropDownBtn.configure(text=u"\u2B07")
         def downCrop(self) :
                 if config.cropHeightStart - 10 <= 0 :
                         self.root.cropDownBtn.configure(text="MAX")
@@ -49,13 +49,13 @@ class App(threading.Thread) :
                         config.cropHeightEnd = config.cropHeightStart + config.cropHeight
 
                 if config.cropHeightStart + config.cropHeight != config.camHeight :
-                        self.root.cropUpBtn.configure(text=u"\u2B06")         
+                        self.root.cropUpBtn.configure(text=u"\u2B06")
         def read(self) :
                 global readMode
                 if (self.root.readBtn.cget('text') == "RUN") :
                         # Set App to read mode
                         readMode = True
-                        
+
                         # Change readBtn to stop colour
                         self.root.readBtn.configure(
                                 bg="red",
@@ -76,7 +76,7 @@ class App(threading.Thread) :
         def stop(self) :
                 global stopProgram
                 stopProgram = True
-        def run(self) :                
+        def run(self) :
                 self.root = tk.Tk()
                 self.root.attributes("-fullscreen", True)
                 self.root.updateConfig = True
@@ -90,7 +90,7 @@ class App(threading.Thread) :
                 )
                 self.root.headerLbl.place(relx=.33, rely=.53)
                 self.root.headerLbl.bind("<Button-1>", self.settings_menu)
-        
+
                 self.root.cropUpBtn = tk.Button(
                         self.root,
                         text=u"\u2B06",
@@ -102,7 +102,7 @@ class App(threading.Thread) :
                         activebackground="yellow"
                 )
                 self.root.cropUpBtn.place(relx=.02, rely=.65)
-        
+
                 self.root.cropDownBtn = tk.Button(
                         self.root,
                         text=u"\u2B07",
@@ -114,7 +114,7 @@ class App(threading.Thread) :
                         activebackground="yellow"
                 )
                 self.root.cropDownBtn.place(relx=.02, rely=.84)
-        
+
                 self.root.readBtn = tk.Button(
                         self.root,
                         text="RUN",
@@ -130,7 +130,7 @@ class App(threading.Thread) :
                 cameraScreen = ImageTk.PhotoImage(image)
                 self.root.cameraLabel = tk.Label(image=cameraScreen)
                 self.root.cameraLabel.place(relx=.01, rely=.01)
-                
+
                 self.root.title("OCR Program")
                 self.root.mainloop()
 
@@ -158,14 +158,14 @@ try:
                         stuckStrip = False
                 else :
                         stuckStrip = True
-                
+
                 # get image then find and sort contours
                 (original, edited, contours) = find_contours.main(f.array)
                 drawImg = original.copy()
 
                 blobCount = 0
 
-                if readMode :        
+                if readMode :
                         #for each contour draw a bounding box and order number
                         if not stuckStrip :
                                 for cnt in contours :
@@ -186,8 +186,8 @@ try:
                         elif (blobCount >= (config.minBlobCount + 1) and not stuckStrip) :
                                 emptyStartTime = 0
                                 if config.automation & alarmOn:
-                                        automationhat.relay.one.off() 
-                                        automationhat.light.comms.off()             
+                                        automationhat.relay.one.off()
+                                        automationhat.light.comms.off()
                                 alarmOn = False
                 else :
                         emptyStartTime = 0
@@ -207,7 +207,7 @@ try:
 
                 rawCap.truncate()
                 rawCap.seek(0)
-                
+
                 if app.root.updateConfig:
                         config = reload(config)
                         if config.automation :
@@ -219,21 +219,21 @@ try:
                                         print('Nothing imported')
                         app.root.updateConfig = False
 
-                if app.root.shutDown: 
+                if app.root.shutDown:
                         try:
                             app.root.quit()
                             sys.exit()
                         except Exception as ex:
                             print('Shutdown error')
                             print(ex)
-                
+
                 # if stop is pressed exit program
                 key = cv2.waitKey(1) & 0xFF
                 rawCap.truncate(0)
                 # if stop button is pressed stop program
-                if stopProgram == True : 
+                if stopProgram == True :
                         break
-                
+
 except RuntimeError, e:
         print('[INFO] caught a RuntimeError')
 

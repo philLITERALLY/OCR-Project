@@ -12,14 +12,13 @@ def main():
     camera.resolution = (config.camWidth, config.camHeight)
     camera.framerate = config.camFrameRate
     camera.color_effects = (128, 128)
-    camera.brightness = 80
     camera.shutter_speed = 1800
 
     # init cap
     rawCap = PiRGBArray(camera, size = (config.camWidth, config.camHeight))
 
     stream = camera.capture_continuous(rawCap, format="bgr",
-	use_video_port=True)
+	   use_video_port=True)
 
     # return camera and init cap
     return stream, rawCap
