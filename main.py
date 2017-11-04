@@ -205,9 +205,6 @@ try:
                 app.root.cameraLabel.configure(image=photo)
                 app.root.cameraLabel.image = photo
 
-                rawCap.truncate()
-                rawCap.seek(0)
-
                 if app.root.updateConfig:
                         config = reload(config)
                         if config.automation :
@@ -229,13 +226,17 @@ try:
 
                 # if stop is pressed exit program
                 key = cv2.waitKey(1) & 0xFF
-                rawCap.truncate(0)
                 # if stop button is pressed stop program
                 if stopProgram == True :
                         break
 
-except RuntimeError, e:
-        print('[INFO] caught a RuntimeError')
+                # clear the stream                
+                rawCap.truncate(0)
+                rawCap.seek(0)
+
+except Exception as e:
+        print('Caught an error')
+        print(e)
 
 app.root.quit()
 sys.exit()
