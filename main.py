@@ -79,7 +79,7 @@ class App(threading.Thread) :
         def run(self) :
                 self.root = tk.Tk()
                 self.root.attributes("-fullscreen", True)
-                self.root.updateConfig = True
+                self.root.updateConfig = False
                 self.root.shutDown = False
 
                 self.root.headerLbl = tk.Label(
@@ -145,6 +145,7 @@ readMode = False
 emptyStartTime = 0
 stuckStrip = False
 alarmOn = False
+font = cv2.FONT_HERSHEY_SIMPLEX
 
 # try/except statement is a pretty ugly hack to get around
 # a RunTime error that Tkinter throws due to threading
@@ -182,7 +183,15 @@ try:
                                         automationhat.relay.one.on()
                                         automationhat.light.comms.on()
                                 else :
-                                        print('ALERT')
+                                        cv2.putText(
+                                                drawImg,
+                                                'ALERT',     # Text
+                                                (10, 30),    # Position
+                                                font,        # Font
+                                                1,           # Size
+                                                (255, 0, 0), # Colour
+                                                2            # Bold
+                                        )
                         elif (blobCount >= (config.minBlobCount + 1) and not stuckStrip) :
                                 emptyStartTime = 0
                                 if config.automation & alarmOn:
