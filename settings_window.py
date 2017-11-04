@@ -89,31 +89,37 @@ def main(root) :
     window.frameTxt.insert(0, config.camFrameRate)
     window.frameTxt.place(relx=.28, rely=.19)
 
+    window.shutterLbl = createLabel("SHUTTER SPEED", 8, '', window)
+    window.shutterLbl.place(relx=.05, rely=.28)
+    window.shutterTxt = createTxt(10, window)
+    window.shutterTxt.insert(0, config.shutterSpeed)
+    window.shutterTxt.place(relx=.28, rely=.27)
+
     window.resolutionLbl = createLabel("RESOLUTION", 8, '', window)
-    window.resolutionLbl.place(relx=.05, rely=.28)
+    window.resolutionLbl.place(relx=.05, rely=.36)
 
     window.heightLbl = createLabel("H", 8, '', window)
-    window.heightLbl.place(relx=.08, rely=.34)
+    window.heightLbl.place(relx=.08, rely=.42)
     window.heightTxt = createTxt(10, window)
     window.heightTxt.insert(0, config.cropHeight)
-    window.heightTxt.place(relx=.28, rely=.33)
+    window.heightTxt.place(relx=.28, rely=.41)
 
     window.widthLbl = createLabel("W", 8, '', window)
-    window.widthLbl.place(relx=.08, rely=.4)
+    window.widthLbl.place(relx=.08, rely=.48)
     window.widthTxt = createTxt(10, window)
     window.widthTxt.insert(0, config.cropWidth)
-    window.widthTxt.place(relx=.28, rely=.39)
+    window.widthTxt.place(relx=.28, rely=.47)
 
     window.cameraLbl = createLabel("OTHER", 8, 'bold', window)
-    window.cameraLbl.place(relx=.19, rely=.49)
+    window.cameraLbl.place(relx=.19, rely=.57)
 
     global automation
     automation = tk.BooleanVar()
     automation.set(config.automation)
     window.alarmLbl = createLabel("AUTOMATION HAT", 8, '', window)
-    window.alarmLbl.place(relx=.05, rely=.57)
+    window.alarmLbl.place(relx=.05, rely=.65)
     window.automationCheck = tk.Checkbutton(window, variable=automation)
-    window.automationCheck.place(relx=.27, rely=.56)
+    window.automationCheck.place(relx=.27, rely=.64)
 
     window.cameraLbl = createLabel("OCR", 8, 'bold', window)
     window.cameraLbl.place(relx=.75, rely=.12)

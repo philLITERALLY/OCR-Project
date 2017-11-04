@@ -7,6 +7,7 @@ automation = True
 camWidth = 800
 camHeight = 480
 camFrameRate = 90
+shutterSpeed = 1800
 
 # Crop Settings
 cropWidth = 800

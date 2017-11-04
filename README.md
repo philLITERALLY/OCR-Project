@@ -52,3 +52,10 @@ Add the following to the bottom of the file:
 
 ``@/usr/bin/python /home/pi/OCR-Project/main.py``
 
+**7. Remove screensaver:**
+
+Install the X Windows screensaver application:
+
+``sudo apt-get install xscreensaver``
+
+Once this has been installed, you can find the screensaver application under the Preferences option on the main desktop menu. This provides options for disabling the screensaver and power saving mode.

@@ -7,26 +7,34 @@ import config
 
 # init camera
 def main(frame):
-        # get cropped image
-        original = frame[config.cropHeightStart:config.cropHeightEnd, 0:config.cropWidth]
-        (thresh, edited) = cv2.threshold(original, config.threshLimit, 255, cv2.THRESH_BINARY_INV)
+    # get cropped image
+    original = frame[config.cropHeightStart:config.cropHeightEnd, 0:config.cropWidth]
 
-        edited = cv2.inRange(edited,0,255)
-        whitePercent =  float(cv2.countNonZero(edited)) / float(config.cropArea) * 100.0
+    # apply threshold
+    (thresh, edited) = cv2.threshold(original, config.threshLimit, 255, cv2.THRESH_BINARY_INV)
 
-        if whitePercent > config.whiteThresh :
-                return original, None, []
+    # WHAT DOES THIS DO?!
+    edited = cv2.inRange(edited, 0, 255)
 
-        # run canny edge detector on image
-        edited = cv2.Canny(edited, config.cannyMin, config.cannyMax)
+    # calculate amount of white in current frame
+    whitePercent = float(cv2.countNonZero(edited)) / float(config.cropArea) * 100.0
 
-        # run opencv find contours, only external boxes
-        (contours, _) = cv2.findContours(edited, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        contours = [cnt for cnt in contours if cv2.contourArea(cnt) > 450]
+    # if white % is greater than set limit give error
+    if whitePercent > config.whiteThresh :
+        return original, None, []
 
-        # run contour sort method
-        if len(contours) > 0 :
-                contours = sort_contours.main(contours)
+    # run canny edge detector on image
+    edited = cv2.Canny(edited, config.cannyMin, config.cannyMax)
 
-        # return un-edited image and contours
-        return original, edited, contours
+    # run opencv find contours, only external boxes
+    (contours, _) = cv2.findContours(edited, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    # only return contours larger in area than 450
+    contours = [cnt for cnt in contours if cv2.contourArea(cnt) > 450]
+
+    # run contour sort method
+    if len(contours) > 0 :
+        contours = sort_contours.main(contours)
+
+    # return un-edited image and contours
+    return original, edited, contours

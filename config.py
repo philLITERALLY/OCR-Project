@@ -1,12 +1,13 @@
 version = "1.0"
 
 # AutomationHat
-automation = 1
+automation = True
 
 # Camera Settings
 camWidth = 800
 camHeight = 480
 camFrameRate = 90
+shutterSpeed = 1800
 
 # Crop Settings
 cropWidth = 800
@@ -23,5 +24,5 @@ threshLimit = 128
 
 # Alarm Settings
 whiteThresh = 70
-alarmTime = 4
+alarmTime = 20
 minBlobCount = 6
