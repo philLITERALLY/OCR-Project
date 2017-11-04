@@ -20,6 +20,7 @@ def exitSettings(root):
         configFileData = configFile.read()
 
     configFileData = textReplace(configFileData, 'camFrameRate', config.camFrameRate, window.frameTxt.get())
+    configFileData = textReplace(configFileData, 'shutterSpeed', config.shutterSpeed, window.shutterTxt.get())
     configFileData = textReplace(configFileData, 'cropWidth', config.cropWidth, window.widthTxt.get())
     configFileData = textReplace(configFileData, 'cropHeight', config.cropHeight, window.heightTxt.get())
 
