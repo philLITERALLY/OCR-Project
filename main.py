@@ -140,7 +140,7 @@ stopProgram = False
 readMode = False
 
 # init camera and warmup
-(stream, rawCap) = camera_setup.main()
+(stream, rawCap, camera) = camera_setup.main()
 
 emptyStartTime = 0
 stuckStrip = False
@@ -239,6 +239,7 @@ try:
                 if stopProgram == True :
                         stream.close()
                         rawCap.close()
+                        camera.close()
                         break
 
                 # clear the stream                
@@ -250,6 +251,7 @@ except Exception as e:
         print(e)
         stream.close()
         rawCap.close()
+        camera.close()
 
 app.root.quit()
 sys.exit()
