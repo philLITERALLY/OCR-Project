@@ -88,7 +88,7 @@ class App(threading.Thread) :
                         font="Helvetica 16 bold",
                         anchor="center"
                 )
-                self.root.headerLbl.place(relx=.33, rely=.53)
+                self.root.headerLbl.place(relx=.33, rely=.48)
                 self.root.headerLbl.bind("<Button-1>", self.settings_menu)
 
                 self.root.cropUpBtn = tk.Button(
@@ -207,7 +207,7 @@ try:
 
                 image = Image.fromarray(drawImg).resize((
                         500 + int(config.cropWidth/float(config.camWidth)*280.0),
-                        100 + int(config.cropHeight/float(config.camHeight)*140.0)
+                        135 + int(config.cropHeight/float(config.camHeight)*60.0)
                 ))
                 photo = ImageTk.PhotoImage(image)
 
@@ -237,6 +237,9 @@ try:
                 key = cv2.waitKey(1) & 0xFF
                 # if stop button is pressed stop program
                 if stopProgram == True :
+                        stream.close()
+                        rawCap.close()
+                        camera.close()
                         break
 
                 # clear the stream                
@@ -246,6 +249,9 @@ try:
 except Exception as e:
         print('Caught an error')
         print(e)
+        stream.close()
+        rawCap.close()
+        camera.close()
 
 app.root.quit()
 sys.exit()
