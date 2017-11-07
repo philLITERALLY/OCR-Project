@@ -17,6 +17,7 @@ def main():
     camera.color_effects = (128, 128)
     # set shutter_speed to config value
     camera.shutter_speed = config.shutterSpeed
+    #camera.brightness = 90
 
     # init capture
     rawCap = PiRGBArray(camera, size = (config.camWidth, config.camHeight))

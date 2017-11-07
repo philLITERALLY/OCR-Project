@@ -239,7 +239,6 @@ try:
                 if stopProgram == True :
                         stream.close()
                         rawCap.close()
-                        camera.close()
                         break
 
                 # clear the stream                
@@ -251,7 +250,6 @@ except Exception as e:
         print(e)
         stream.close()
         rawCap.close()
-        camera.close()
 
 app.root.quit()
 sys.exit()
