@@ -28,8 +28,6 @@ class App(threading.Thread) :
         def __init__(self) :
                 threading.Thread.__init__(self)
                 self.start()
-        def callback(self) :
-                self.root.quit()
         def settings_menu(self, other) :
                 window = settings_window.main(self.root)
         def upCrop(self) :
@@ -73,9 +71,6 @@ class App(threading.Thread) :
                                 activebackground="green",
                                 text="RUN"
                         )
-        def stop(self) :
-                global stopProgram
-                stopProgram = True
         def run(self) :
                 self.root = tk.Tk()
                 self.root.attributes("-fullscreen", True)
@@ -136,7 +131,6 @@ class App(threading.Thread) :
 
 app = App()
 
-stopProgram = False
 readMode = False
 
 # init camera and warmup
@@ -152,8 +146,17 @@ font = cv2.FONT_HERSHEY_SIMPLEX
 try:
         #grab frames
         for (i, f) in enumerate(stream):
+                # clear the stream
+                rawCap.truncate(0)
+                rawCap.seek(0)
+
+                if len(rawCap.array) != 480 :
+                        print("NOT 480?!")
+                        print(len(rawCap.array))
+
                 # get cropped image
                 croppedFrame = f.array[config.cropHeightStart:config.cropHeightEnd, 0:config.camWidth]
+
                 bandw = Image.fromarray(croppedFrame).convert('1')
                 if bandw.getcolors()[0] > bandw.getcolors()[1] :
                         stuckStrip = False
@@ -214,6 +217,10 @@ try:
                 app.root.cameraLabel.configure(image=photo)
                 app.root.cameraLabel.image = photo
 
+                if len(rawCap.array) != 480 :
+                        print("END OF NOT 480?!")
+                        print(len(rawCap.array))
+
                 if app.root.updateConfig:
                         config = reload(config)
                         if config.automation :
@@ -227,28 +234,30 @@ try:
 
                 if app.root.shutDown:
                         try:
+                            stream.close()
+                            rawCap.close()
+                            camera.close()
                             app.root.quit()
                             sys.exit()
                         except Exception as ex:
                             print('Shutdown error')
                             print(ex)
 
-                # if stop is pressed exit program
-                key = cv2.waitKey(1) & 0xFF
-                # if stop button is pressed stop program
-                if stopProgram == True :
-                        stream.close()
-                        rawCap.close()
-                        camera.close()
-                        break
-
-                # clear the stream                
-                rawCap.truncate(0)
-                rawCap.seek(0)
-
 except Exception as e:
         print('Caught an error')
         print(e)
+
+        print('Stream')
+        print(stream)
+        print('rawCap')
+        print(rawCap)
+        print('rawCap array')
+        print(rawCap.array)
+        print('rawCap array length')
+        print(len(rawCap.array))
+        print('camera')
+        print(camera)
+
         stream.close()
         rawCap.close()
         camera.close()
